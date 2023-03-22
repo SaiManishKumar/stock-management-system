@@ -1,0 +1,303 @@
+# stock-management-system
+
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+C#, VB, Perl, Swift, Prolog, Javascript, Pascal, HTML, CSS, JS
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<string.h>
+
+void Inwards();
+void Outwards();
+void Display();
+void Modify();
+void report();
+int main()
+{
+  int choice;
+  while(1)
+  {
+    printf("\n 1.Inwards");
+    printf("\n 2.Outwards");
+    printf("\n 3.Display");
+    printf("\n 4.Modify");
+    printf("\n 5.Report");
+    printf("\n 6.exit");
+    printf("\nEnter choice");
+    scanf("%d",&choice);
+    if(choice>5)
+    exit(1);
+
+    switch(choice)
+    {
+      case 1:
+      Inwards();
+      break;
+      case 2:
+      Outwards();
+      break;
+      case 3:
+      Display();
+      break;
+      case 4:
+      Modify();
+      break;
+      case 5:
+	report();
+	break;
+      case 6:
+       return 0;
+    }
+    }
+}
+void Inwards()
+{
+  char stockname[40],choice='y';
+  int stockcode,binno,date,qty,rate,amount,remarks;
+  FILE *fp;
+  fp=fopen("stock.dat","a");
+  while(choice!='n')
+  {
+    printf("\nenter stockcode");
+    scanf("\n%d",&stockcode);
+    printf("enter stockname");
+    scanf("\n%s",stockname);
+    printf("enter binno");
+    scanf("\n%d",&binno);
+    printf("enter date");
+    scanf("\n%d",&date);
+    printf("enter qty");
+    scanf("\n%d",&qty);
+    printf("enter rate");
+    scanf("\n%d",&rate);
+    printf("enter remarks");
+    scanf("\n%d",&remarks);
+    amount=qty*rate;
+    fprintf(fp,"%4d%20s%4d%4d%4d%4d%4d%4d\n",stockcode,stockname,binno,date,qty,rate,amount,remarks);
+    printf("record inserted");
+    printf("continue y/n");
+    fflush(stdin);
+    scanf("%s",&choice);
+  }
+  fclose(fp);
+}
+void Outwards()
+{
+  char stockname[40],choice='y';
+  int stockcode,binno,date,qty,rate,amount,remarks;
+  FILE *fp;
+  fp=fopen("Outwards.dat","a");
+  while(choice!='n')
+  {
+    printf("\nenter stockcode");
+    scanf("\n%d",&stockcode);
+    printf("enter stockname");
+    scanf("\n%s",stockname);
+    printf("enter binno");
+    scanf("\n%d",&binno);
+    printf("enter date");
+    scanf("\n%d",&date);
+    printf("enter qty");
+    scanf("\n%d",&qty);
+    printf("enter rate");
+    scanf("\n%d",&rate);
+    printf("enter remarks");
+    scanf("\n%d",&remarks);
+    amount=qty*rate;
+    fprintf(fp,"%4d%20s%4d%4d%4d%4d%4d%4d\n",stockcode,stockname,binno,date,qty,rate,amount,remarks);
+    printf("record inserted\n");
+    printf("continue y/n");
+    fflush(stdin);
+    scanf("%s",&choice);
+  }
+  fclose(fp);
+}
+void Display()
+{  char stockname[40],choice='y';
+  int stockcode,binno,date,qty,rate,amount,remarks,c;
+  int scode;
+  FILE *fp;
+  printf("enter Inwards||Outwards I/O");
+  fflush(stdin);
+    scanf("%s",&choice);
+  if(choice=='I'||choice=='i')
+  {
+    printf("\nenter stockcode");
+    scanf("%d",&scode);
+    fp=fopen("stock.dat","r");
+    c=0;
+    fscanf(fp,"%d%s%d%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&amount,&remarks);
+    while(!feof(fp))
+    {
+
+     /* printf("\n%4d%20s%4d%4d%4d%4d%4d%4d",stockcode,stockname,binno,date,qty,rate,amount,remarks);*/
+
+      if(stockcode==scode)
+      {
+
+        printf("stockcode%d",stockcode);
+        printf("stockname%s",stockname);
+        printf("binno%d",binno);
+        printf("date%d",date);
+        printf("qty%d",qty);
+	printf("rate%d",rate);
+        printf("amount%d",amount);
+        printf("remarks%d",remarks);
+        c=1;
+      }
+       fscanf(fp,"%d%s%d%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&amount,&remarks);
+  }
+  if(c==0)
+  printf("item not match");
+  fclose(fp);
+  }
+  else if(choice=='O'||choice=='o')
+  {
+  printf("\nenter stockcode");
+    scanf("%d",&scode);
+    fp=fopen("Outwards.dat","r");
+    c=0;
+    fscanf(fp,"%d%s%d%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&amount,&remarks);
+    while(!feof(fp))
+    {
+
+    if(stockcode==scode)
+    {
+
+	printf("stockcode%d",stockcode);
+        printf("stockname%s",stockname);
+        printf("binno%d",binno);
+        printf("date%d",date);
+        printf("qty%d",qty);
+        printf("rate%d",rate);
+        printf("amount%d",amount);
+        printf("remarks%d",remarks);
+        c=1;
+
+    }
+    fscanf(fp,"%d%s%d%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&amount,&remarks);
+    }
+    if(c==0)
+    printf("item not found");
+    fclose(fp);
+  }
+
+  }
+void report()
+{  char stockname[40],choice='y';
+  int stockcode,binno,date,qty,rate,amount,remarks;
+  int scode;
+  FILE *fp;
+  printf("enter Inwards||Outwards I/O");
+ fflush(stdin);
+    scanf("%s",&choice);
+  if(choice=='I'||choice=='i')
+  {
+    fp=fopen("stock.dat","r");
+    fscanf(fp,"%d%s%d%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&amount,&remarks);
+    while(!feof(fp))
+    {
+
+     printf("\n%4d%20s%4d%4d%4d%4d%4d%4d",stockcode,stockname,binno,date,qty,rate,amount,remarks);
+
+       fscanf(fp,"%d%s%d%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&amount,&remarks);
+     }
+  fclose(fp);
+  }
+  else if(choice=='O'||choice=='o')
+  {
+    fp=fopen("Outwards.dat","r");
+    fscanf(fp,"%d%s%d%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&amount,&remarks);
+    while(!feof(fp))
+    {
+	printf("\n%4d%20s%4d%4d%4d%4d%4d%4d",stockcode,stockname,binno,date,qty,rate,amount,remarks);
+    fscanf(fp,"%d%s%d%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&amount,&remarks);
+    }
+    fclose(fp);
+  }
+
+  }
+void Modify()
+{
+  char stockname[40],choice='y';
+
+  int stockcode,binno,date,qty,rate,amount,remarks,c;
+  int scode=0;
+  FILE *fp,*fp1;
+  fp1=fopen("temp.dat","w");
+  printf("enter Inwards||Outwards I/O");
+  fflush(stdin);
+    scanf("%s",&choice);
+  if(choice=='I'||choice=='i')
+  {
+    printf("enter stockcode");
+    scanf("%d",&scode);
+    fp=fopen("stock.dat","r");
+    c=0;
+     fscanf(fp,"%d%s%d%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&amount,&remarks);
+    while(!feof(fp))
+    {
+
+
+
+      if(stockcode==scode)
+      {
+	printf("Enter stock code,name,bino,date,qty,rate,amount,remarks");
+	scanf("%d%s%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&remarks);
+
+	amount=qty*rate;
+        c=1;
+    }
+    fprintf(fp1,"%4d%20s%4d%4d%4d%4d%4d%4d\n",stockcode,stockname,binno,date,qty,rate,amount,remarks);
+     fscanf(fp,"%d%s%d%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&amount,&remarks);
+  }
+  if(c==0)
+  printf("no such record");
+  fclose(fp);
+  fclose(fp1);
+  unlink("stock.dat");
+  rename("temp.dat","stock.dat");
+
+
+}
+
+ else if(choice=='O'||choice=='o')
+  {
+    printf("enter stockcode");
+    scanf("%d",&scode);
+    fp=fopen("Outwards.dat","r");
+    c=0;
+	 fscanf(fp,"%d%s%d%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&amount,&remarks);
+    while(!feof(fp))
+    {
+
+
+
+      if(stockcode==scode)
+      {
+	printf("Enter stock code,name,bino,date,qty,rate,amount,remarks");
+	scanf("%d%s%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&remarks);
+
+	amount=qty*rate;
+        c=1;
+      }
+    fprintf(fp1,"%4d%20s%4d%4d%4d%4d%4d%4d\n",stockcode,stockname,binno,date,qty,rate,amount,remarks);
+     fscanf(fp,"%d%s%d%d%d%d%d%d",&stockcode,stockname,&binno,&date,&qty,&rate,&amount,&remarks);
+  }
+  if(c==0)
+  printf("no such record");
+  fclose(fp);
+  fclose(fp1);
+  unlink("Outwards.dat");
+  rename("temp.dat","Outwards.dat");
+
+
+}
+
+}
